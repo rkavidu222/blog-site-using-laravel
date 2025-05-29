@@ -5,6 +5,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 
 
@@ -27,7 +28,17 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create')->with('categories',Category::all());
+
+        $categories = Category::all();
+
+        if($categories->count()==0)
+        {
+            Session::flash("info","You must have some categories before attempting to create a post");
+
+            return redirect()->back();
+        }
+
+        return view('admin.posts.create')->with('categories',$categories);
     }
 
     /**
@@ -56,13 +67,14 @@ class PostController extends Controller
             'title'=> $request->title,
             'content'=> $request->content,
             'featured'=>'uplods/posts'.$featured_new_name,
-            'category_id'=> $request->category_id
+            'category_id'=> $request->category_id,
+           'slug' => Str::slug($request->title),
 
         ]);
 
         Session::flash('success', 'Post created successfully');
 
-        dd($request->all());
+        return redirect()->back();
     }
 
     /**
