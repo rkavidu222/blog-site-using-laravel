@@ -19,6 +19,12 @@ class Post extends Model
         'slug',
     ];
 
+    public function getFeaturedAttribute($featured)
+    {
+        return asset($featured);
+    }
+
+
     protected $dates = ['deleted_at'];
 
     // Relationship

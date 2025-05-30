@@ -10,7 +10,7 @@
             Edit category {{ $category->name }}
         </div>
         <div class="card-body">
-            <form action="{{route('category.update',['id'=>$category->id])}}" method="POST" >
+            <form action="{{ route('post.update', ['id' => $post->id]) }}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
 
                 <div class="form-group">
