@@ -2,20 +2,15 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get("/test", function () {
+    return App\Models\Profile::find(1)->user;
+});
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,5 +46,15 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function () {
     Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
     Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+
+
+
+    Route::get('/tags', [TagsController::class, 'index'])->name('tags');
+    Route::get('/tag/create', [TagsController::class, 'create'])->name('tag.create');
+    Route::post('/tag/store', [TagsController::class, 'store'])->name('tag.store');
+    Route::get('/tag/edit/{id}', [TagsController::class, 'edit'])->name('tag.edit');
+    Route::post('/tag/update/{id}', [TagsController::class, 'update'])->name('tag.update');
+    Route::get('/tag/delete/{id}', [TagsController::class, 'destroy'])->name('tag.delete');
+
 });
 
