@@ -13,6 +13,8 @@ class Profile extends Model
     }
 
 
+    protected $fillable = ['user_id', 'avatar', 'youtube', 'facebook', 'about'];
+
 
     use HasFactory;
 }

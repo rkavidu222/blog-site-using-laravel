@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 
 
 Route::get("/test", function () {
@@ -12,9 +17,7 @@ Route::get("/test", function () {
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FrontEndController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -55,6 +58,29 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function () {
     Route::get('/tag/edit/{id}', [TagsController::class, 'edit'])->name('tag.edit');
     Route::post('/tag/update/{id}', [TagsController::class, 'update'])->name('tag.update');
     Route::get('/tag/delete/{id}', [TagsController::class, 'destroy'])->name('tag.delete');
+
+
+
+    Route::get('/users', [UsersController::class, 'index'])->name('users');
+    Route::get('/user/create', [UsersController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [UsersController::class, 'store'])->name('user.store');
+    Route::get('/user/admin/{id}', [UsersController::class, 'admin'])->name('user.admin')->middleware('admin');
+    Route::get('/user/not_admin/{id}', [UsersController::class, 'not_admin'])->name('user.not_admin');
+    Route::get('/user/delete/{id}', [UsersController::class, 'destroy'])->name('user.delete');
+
+
+
+    Route::get('/user/profile', [ProfilesController::class, 'index'])->name('user.profile');
+    Route::post('/user/profile/update', [ProfilesController::class, 'update'])->name('user.profile.update');
+
+
+
+
+
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/admin/settings', [SettingsController::class, 'index'])->name('settings');
+        Route::post('/admin/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+    });
 
 });
 

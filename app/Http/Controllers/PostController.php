@@ -31,15 +31,16 @@ class PostController extends Controller
     {
 
         $categories = Category::all();
+        $tag=Tag::all();
 
-        if($categories->count()==0)
+        if($categories->count()==0 || $tag->count()== 0)
         {
-            Session::flash("info","You must have some categories before attempting to create a post");
+            Session::flash("info","You must have some categories or tags before attempting to create a post");
 
             return redirect()->back();
         }
 
-        return view('admin.posts.create')->with('categories',$categories)->with('tags', Tag::all());
+        return view('admin.posts.create')->with('categories',$categories)->with('tags', $tag);
 
 
     }
@@ -102,14 +103,18 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post=Post::find($id);
+        $post = Post::find($id);
 
-       return view('admin.posts.edit')
-        ->with('post', $post)
-        ->with('categories', Category::all())
-        ->with('tags', Tag::all());
+        if (!$post) {
+            return redirect()->route('posts')->with('error', 'Post not found.');
+        }
 
+        return view('admin.posts.edit')
+            ->with('post', $post)
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all());
     }
+
 
     /**
      * Update the specified resource in storage.
