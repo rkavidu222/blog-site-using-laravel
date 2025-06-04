@@ -82,5 +82,15 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function () {
         Route::post('/admin/settings/update', [SettingsController::class, 'update'])->name('settings.update');
     });
 
+
+
+
+
+
+
+
 });
 
+Route::get('/post/{slug}', [FrontEndController::class, 'singlePost'])->name('post.single');
+Route::get('/category/{id}', [FrontEndController::class, 'category'])->name('category.single');
+Route::get('/tag/{id}', [FrontEndController::class, 'tag'])->name('tag.single');

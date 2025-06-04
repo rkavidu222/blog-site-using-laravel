@@ -12,7 +12,7 @@ class Tag extends Model
 
     public function post() {
 
-        return $this->belongsToMany('App\Post');
+       return $this->belongsToMany('App\Models\Post');
 
     }
 
