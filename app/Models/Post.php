@@ -18,12 +18,15 @@ class Post extends Model
         'category_id',
         'featured',
         'slug',
+        'user_id'
     ];
 
     public function getFeaturedAttribute($featured)
     {
         return asset($featured);
     }
+
+
 
 
     protected $dates = ['deleted_at'];
@@ -38,5 +41,9 @@ class Post extends Model
 
         return $this->belongsToMany('App\Models\Tag');
 
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

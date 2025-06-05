@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/normalize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/grid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/styles.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('app/css/toastr.css') }}">
     <!-- Plugins styles -->
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/jquery.mCustomScrollbar.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('app/css/swiper.min.css') }}">
@@ -19,59 +19,8 @@
 
     <!--External fonts-->
     <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-<style>
-        .padded-50 {
-            padding: 40px;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .post-thumb {
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background-color: #f5f5f5; /* Neutral background for empty space */
-        }
-        .post-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Show full image without cropping */
-        }
-        .case-item__thumb {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f5f5f5; /* Neutral background for empty space */
-        }
-        .case-item__thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Show full image without cropping */
-        }
-        @media (max-width: 768px) {
-            .post-thumb {
-                height: 200px;
-            }
-            .case-item__thumb {
-                height: 150px;
-            }
-        }
-        @media (max-width: 576px) {
-            .post-thumb {
-                height: 150px;
-            }
-            .case-item__thumb {
-                height: 100px;
-            }
-        }
-    </style>
+
+
 </head>
 
 <body class=" ">
@@ -86,31 +35,9 @@
 
 
     <!-- Subscribe Form -->
-    <div class="container-fluid bg-green-color">
-        <div class="row">
-            <div class="container">
-                <div class="row">
-                    <div class="subscribe scrollme">
-                        <div class="col-lg-6 col-lg-offset-5 col-md-6 col-md-offset-5 col-sm-12 col-xs-12">
-                            <h4 class="subscribe-title">Email Newsletters!</h4>
-                            <form class="subscribe-form" method="post" action="">
-                                <input class="email input-standard-grey input-white" name="email" required="required" placeholder="Your Email Address" type="email">
-                                <button class="subscr-btn">subscribe
-                                    <span class="semicircle--right"></span>
-                                </button>
-                            </form>
-                            <div class="sub-title">Sign up for new Seosignt content, updates, surveys & offers.</div>
-                        </div>
-                        <div class="images-block">
-                            <img src="{{ asset('app/img/subscr-gear.png') }}" alt="gear" class="gear">
-                            <img src="{{ asset('app/img/subscr1.png') }}" alt="mail" class="mail">
-                            <img src="{{ asset('app/img/subscr-mailopen.png') }}" alt="mail" class="mail-2">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @include('includes.form')
+
     <!-- End Subscribe Form -->
 </div>
 
@@ -155,21 +82,7 @@
 </svg>
 
 <!-- Overlay Search -->
-<div class="overlay_search">
-    <div class="container">
-        <div class="row">
-            <div class="form_search-wrap">
-                <form>
-                    <input class="overlay_search-input" placeholder="Type and hit Enter..." type="text">
-                    <a href="#" class="overlay_search-close">
-                        <span></span>
-                        <span></span>
-                    </a>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+ @include('includes.search')
 <!-- End Overlay Search -->
 
 <!-- JS Script -->
@@ -182,7 +95,22 @@
 <script src="{{ asset('app/js/velocity.min.js') }}"></script>
 <script src="{{ asset('app/js/ScrollMagic.min.js') }}"></script>
 <script src="{{ asset('app/js/animation.velocity.min.js') }}"></script>
+<script src="{{ asset('app/js/toastr.min.js') }}"></script>
 <!-- ...end JS Script -->
+
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=6841274184860b001ace812b&product=inline-share-buttons&source=platform" async="async"></script>
+
+
+    <script>
+        @if (Session::has('subscribed'))
+            toastr.success("{{ Session::get('subscribed') }}")
+
+        @endif
+
+    </script>
+
+     @yield('scripts')
+
 
 </body>
 </html>

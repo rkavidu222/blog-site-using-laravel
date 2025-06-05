@@ -9,6 +9,20 @@ use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Newsletter\NewsletterFacade as Newsletter;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+
+Route::post('/subscribe', function () {
+    $email = request('email');
+
+    // Example subscription logic
+    NewsLetter::subscribe($email);
+
+   return redirect()->back()->with('success', 'You have subscribed successfully!');
+
+});
+
 
 
 
@@ -94,3 +108,16 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth'], function () {
 Route::get('/post/{slug}', [FrontEndController::class, 'singlePost'])->name('post.single');
 Route::get('/category/{id}', [FrontEndController::class, 'category'])->name('category.single');
 Route::get('/tag/{id}', [FrontEndController::class, 'tag'])->name('tag.single');
+
+Route::get('/results', function(){
+
+    $posts= \App\Models\Post::where('title', 'like','%' .request('query'). '%')->get();
+
+    return view('results')->with('posts', $posts)
+                          ->with('title', 'Search result:'. request('query'))
+                          ->with('settings', \App\Models\Setting::first())
+                          ->with('categories', \App\Models\Category::take(4)->get())
+                          ->with('query', request('query'));
+});
+
+

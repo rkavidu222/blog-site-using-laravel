@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
+Use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('admin.home')
+                ->with('post_count', Post:: all()->count())
+                ->with('trash_count', Post:: onlyTrashed()->get()->count())
+                ->with('user_count', User:: all()->count())
+                ->with('category_count', Category:: all()->count())
+        ;
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class PostController extends Controller
@@ -74,6 +74,7 @@ class PostController extends Controller
             'featured'=> 'uploads/posts/' . $featured_new_name,
             'category_id'=> $request->category_id,
             'slug' => Str::slug($request->title),
+            'user_id' => Auth::id()
         ]);
 
         $post->tags()->attach($request->tags);
